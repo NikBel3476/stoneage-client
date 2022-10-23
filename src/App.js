@@ -1,29 +1,24 @@
 import React from 'react';
-import { Route, Redirect } from 'react-router-dom';
+import {Route, BrowserRouter, Routes, Navigate} from 'react-router-dom';
 import Login from './components/Login/login'
 import Sign from './components/Sign/sign'
 import Game from './components/Game/Game';
 import './App.css';
 import Server from './modules/Server.js';
 
-class App extends React.Component {
-  constructor() {
-    super();
-    this.server = new Server();
-  }
+const App = () => {
+	const server = new Server();
 
-  render() {
-    return (
-      <div className="App">
-        <Redirect to='/login'/>
-        <div>
-          <Route path='/login' render={() => <Login server={this.server}/>}/>
-          <Route path='/registration' render={() => <Sign server={this.server}/>}/>
-          <Route path='/game' render={() => <Game server={this.server}/>}/>
-        </div>
-      </div>
-    );  
-  }
+	return (
+		<BrowserRouter>
+			<Routes>
+				<Route path='/login' element={<Login server={server}/>}/>
+				<Route path='/registration' element={<Sign server={server}/>}/>
+				<Route path='/game' element={<Game server={server}/>}/>
+				<Route path='/*' element={<Navigate to='/login'/>} />
+			</Routes>
+		</BrowserRouter>
+	);
 }
 
 export default App;
