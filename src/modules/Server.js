@@ -77,7 +77,6 @@ export default class Server {
             const bdHash = await this.sendRequest ('updateMap', {hash});
             if(bdHash !== this.hash && bdHash !== false) {
                 this.mapHash = bdHash;
-                console.log('mapHash: ' + this.mapHash);
                 this.map = await this.getMap();
                 if (this.map) {
                     for (let i = 0; i < this.map.gamers.length; i++) {

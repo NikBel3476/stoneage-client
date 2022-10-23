@@ -7,13 +7,13 @@ import { LinkContainer } from 'react-router-bootstrap';
 
 class Game extends React.Component {
     constructor(props) {
-        super();
+        super(props);
         this.server = props.server;
         this.scene = null;
     }
 
     async componentDidMount() {
-      this.server.getMap();
+      await this.server.getMap();
       this.scene = new Scene(this.server);
       document.getElementById('canvas').addEventListener('click', (event) => { this.scene.click(event) });
     }
@@ -73,7 +73,7 @@ class Game extends React.Component {
                 <div className="h2">Stone Age</div>
                 <div>
                 <LinkContainer to='/login'>
-                  <Button onClick={() => { this.sendRequest('logout'); this.canvas.clInterval(); }} className="logout-button">Выход</Button>
+                  <Button onClick={() => { this.sendRequest('logout'); this.scene.clInterval(); }} className="logout-button">Выход</Button>
                 </LinkContainer>
                 </div>
             </div>

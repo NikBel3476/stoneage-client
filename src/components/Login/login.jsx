@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button } from 'react-bootstrap';
-import { Redirect } from 'react-router-dom';
+import {Navigate} from 'react-router-dom';
 import Header from '../Header/Header'
 import 'bootstrap/dist/css/bootstrap.css';
 import './style.css';
@@ -9,7 +9,7 @@ import noViewSvg from '../../images/no-view.svg';
 
 class Login extends React.Component {
     constructor(props) {
-        super();
+        super(props);
         this.server = props.server;
         this.state = {
             image: ViewSvg,
@@ -49,7 +49,7 @@ class Login extends React.Component {
   
     render() {
         if (this.state.canRedirect) {
-            return <Redirect to='/game'/>
+            return <Navigate to='/game'/>
         } else {
             return (
                 <div>
