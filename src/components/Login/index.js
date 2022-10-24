@@ -1,1 +1,1 @@
-export { default } from '../sign/sign'
+export { default } from './Login';
