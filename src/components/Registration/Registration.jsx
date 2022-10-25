@@ -1,20 +1,22 @@
 import React, {useReducer, useRef, useState} from 'react';
-import {Button} from 'react-bootstrap';
-import {Navigate} from 'react-router-dom';
 import Header from '../Header/Header'
 import 'bootstrap/dist/css/bootstrap.css';
-import './Login.css';
+import './Registration.css';
+import {Button} from 'react-bootstrap';
 import ViewSvg from '../../images/view.svg';
 import noViewSvg from '../../images/no-view.svg';
+import {Navigate} from "react-router-dom";
 import server from "../../modules/Server";
 
 const formInitialState = {
 	login: '',
+	nickname: '',
 	password: ''
 }
 
 const formActions = {
 	login: 'login',
+	nickname: 'nickname',
 	password: 'password'
 }
 
@@ -22,6 +24,8 @@ const formReducer = (state, action) => {
 	switch(action.type) {
 		case formActions.login:
 			return { ...state, login: action.payload };
+		case formActions.nickname:
+			return { ...state, nickname: action.payload };
 		case formActions.password:
 			return { ...state, password: action.payload };
 		default:
@@ -29,7 +33,7 @@ const formReducer = (state, action) => {
 	}
 }
 
-const Login = () => {
+const Registration = () => {
 	const [passwordVisibilityImage, setPasswordVisibilityImage] = useState(ViewSvg);
 	const [canRedirect, setCanRedirect] = useState(false);
 
@@ -37,9 +41,13 @@ const Login = () => {
 
 	const passwordInputRef = useRef(null);
 
-	const auth = async (event) => {
+	const registration = async (event) => {
 		event.preventDefault();
-		const result = await server.login(state.login, state.password);
+		const result = await server.registration(
+			state.nickname,
+			state.login,
+			state.password
+		);
 		setCanRedirect(result ?? false);
 	}
 
@@ -57,6 +65,10 @@ const Login = () => {
 		dispatch({ type: formActions.login, payload: event.target.value });
 	}
 
+	const handleNicknameInputChange = (event) => {
+		dispatch({ type: formActions.nickname, payload: event.target.value });
+	}
+
 	const handlePasswordInputChange = (event) => {
 		dispatch({ type: formActions.password, payload: event.target.value });
 	}
@@ -72,7 +84,7 @@ const Login = () => {
 				<div className="col-sm-4 mx-auto">
 					<form>
 						<div>
-							<h2>Вход</h2>
+							<h2>Регистрация</h2>
 							<div className="form-group">
 								<label htmlFor="login">Логин</label>
 								<input
@@ -80,38 +92,55 @@ const Login = () => {
 									className="form-control mb-2"
 									id="login"
 									value={state.login}
-									onChange={event => handleLoginInputChange(event)}
+									onChange={(event) => handleLoginInputChange(event)}
 								/>
 							</div>
+
+							<div className="form-group">
+								<label htmlFor="nickname">Никнейм</label>
+								<input
+									className="form-control mb-2"
+									id="nickname"
+									value={state.nickname}
+									onChange={event => handleNicknameInputChange(event)}
+								/>
+							</div>
+
 							<div className="form-group">
 								<label htmlFor="password">Пароль</label>
 								<div className="passwordLog">
 									<input
 										ref={passwordInputRef}
-										className="form-control"
+										className="form-control mb-2"
 										id="password"
 										type="password"
 										value={state.password}
-										onChange={event => handlePasswordInputChange(event)}
+										onChange={(event) => handlePasswordInputChange(event)}
 									/>
-									{ /* eslint-disable-next-line */ }
+									{/* eslint-disable-next-line */}
 									<a
 										href="#"
 										className="password-show"
 										onClick={() => changePasswordVisibility()}
 									>
-										<img id="view-eye" src={passwordVisibilityImage} alt={"password visibility"}/>
+										<img
+											id="view-eye"
+											src={passwordVisibilityImage}
+											alt="password visibility"
+										/>
 									</a>
 								</div>
 							</div>
-							<Button
-								disabled={!(state.login && state.password)}
-								type="submit"
-								className="btn btn-success btn-block mt-3"
-								onClick={event => auth(event)}
-							>
-								Войти
-							</Button>
+							<div>
+								<Button
+									disabled={!(state.login && state.nickname && state.password)}
+									type="submit"
+									className="btn btn-success btn-block mt-3"
+									onClick={event => registration(event)}
+								>
+									Зарегистрироваться
+								</Button>
+							</div>
 						</div>
 					</form>
 				</div>
@@ -120,4 +149,4 @@ const Login = () => {
 	);
 }
 
-export default Login;
+export default Registration;

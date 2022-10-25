@@ -1,7 +1,7 @@
 import {Navigate} from "react-router-dom";
 import {routerPaths} from "./routerPaths";
 import Login from "../components/Login";
-import Sign from "../components/Sign";
+import Registration from "../components/Registration";
 import Game from "../components/Game";
 
 export const routes = [
@@ -15,7 +15,7 @@ export const routes = [
 	},
 	{
 		path: routerPaths.registration,
-		component: <Sign />
+		component: <Registration />
 	},
 	{
 		path: routerPaths.game,
