@@ -1,5 +1,7 @@
+import server from "./Server";
+
 export default class Canvas {
-	constructor(img, server, canvas) {
+	constructor(img, canvas) {
 		this.server = server;
 		this.img = img;
 		this.canvas = canvas;

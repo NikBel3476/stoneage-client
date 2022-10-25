@@ -1,16 +1,17 @@
 import img from '../Sprites/SpritesMap.png'
 import Canvas from './Canvas.js'
+import server from "./Server";
 
 export default class Scene {
-	constructor(server, canvas) {
+	constructor() {
 		this.server = server;
 		this.img = new Image();
 		this.img.src = img;
-		this.canvasElement = canvas;
-		this.img.onload = () => {
-			this.canvas = new Canvas(this.img, this.server, this.canvasElement);
-			this.updateScene();
-		};
+	}
+
+	init(canvas) {
+		this.canvas = new Canvas(this.img, canvas);
+		this.updateScene();
 	}
 
 	map = {};
