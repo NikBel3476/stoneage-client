@@ -1,4 +1,4 @@
-export default class Server {
+class Server {
     token = '';
     map = {}; 
     hash = '';
@@ -21,14 +21,13 @@ export default class Server {
 
     async login(login, password) {
         if (login && password) {
-            var md5 = require('md5');
+            const md5 = require('md5');
             const num = Math.round(Math.random() * 100000);
             const hash = md5(md5(login + password) + num);
             this.token = await this.sendRequest('login', { login, hash, num });
             if (this.token) {
                 this.gamer = await this.sendRequest('join');
                 localStorage.setItem('token', this.token);
-                //this.update = setInterval(() => {this.checkHash()}, 5000);
                 return true;
             }
         }
@@ -37,16 +36,14 @@ export default class Server {
 
     async registration(nickname, login, password) {
         if (nickname && login && password) {
-            var md5 = require('md5');
+            const md5 = require('md5');
             const num = Math.round(Math.random() * 100000);
             const hash = md5(login + password);
             this.token = md5(hash + num);
             this.token =  await this.sendRequest('registration', { nickname, login, hash, num });
             if (this.token) {
                 this.gamer = await this.sendRequest('join');
-                console.log(this.gamer);
                 localStorage.setItem('token', this.token);
-                //this.update = setInterval(() => {this.checkHash()}, 5000);
                 return true;
             }    
         }
@@ -62,7 +59,6 @@ export default class Server {
                 this.map = {};
                 this.gamer = {};
                 localStorage.setItem('token', '');
-                //clearInterval(this.update);
             }
         }
     }
@@ -136,3 +132,5 @@ export default class Server {
         return this.sendRequest('keepBuilding');
     }
 }
+
+export default new Server();

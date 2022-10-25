@@ -1,38 +1,42 @@
 import img from '../Sprites/SpritesMap.png'
 import Canvas from './Canvas.js'
+import server from "./Server";
 
 export default class Scene {
-    constructor(server) {
-        this.server = server;
-        this.img = new Image();
-        this.img.src = img;
-        this.img.onload = () => {
-            this.canvas = new Canvas(this.img, this.server);
-            this.updateScene(); 
-        };
-    }
+	constructor() {
+		this.server = server;
+		this.img = new Image();
+		this.img.src = img;
+	}
 
-    map = {};
-    update = setInterval(() => { this.updateScene() }, 300);
+	init(canvas) {
+		this.canvas = new Canvas(this.img, canvas);
+		this.updateScene();
+	}
 
-    clInterval() {
-        delete this.canvas;
-        delete this.map;
-        clearInterval(this.update);
-    }
+	map = {};
+	update = setInterval(() => {
+		this.updateScene()
+	}, 300);
 
-    async updateScene() {
-        this.map = await this.server.checkHash();
-        if (this.map && this.map.gamer) {
-            this.gamer = this.map.gamer;
-            this.canvas.drawMap(this.map, this.gamer);
-            this.canvas.drawItem(this.map, this.gamer);
-            this.canvas.drawGamers(this.map, this.gamer);
-            this.canvas.drawGamer(this.gamer);
-        }
-    }
+	clInterval() {
+		delete this.canvas;
+		delete this.map;
+		clearInterval(this.update);
+	}
 
-    click(event) {
-        this.canvas.click(event);
-    }
+	async updateScene() {
+		this.map = await this.server.checkHash();
+		if (this.map && this.map.gamer) {
+			this.gamer = this.map.gamer;
+			this.canvas.drawMap(this.map, this.gamer);
+			this.canvas.drawItem(this.map, this.gamer);
+			this.canvas.drawGamers(this.map, this.gamer);
+			this.canvas.drawGamer(this.gamer);
+		}
+	}
+
+	click(event) {
+		this.canvas.click(event);
+	}
 }
