@@ -4,4 +4,4 @@
 
 ## Installation and launch
 1. `npm install` - install dependencies
-2. `npm run start` - start the app
+2. `npm run dev` - start the app

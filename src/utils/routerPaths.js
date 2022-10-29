@@ -1,5 +1,4 @@
 export const routerPaths = {
-	any: '/*',
 	root: '/',
 	login: '/login',
 	registration: '/registration',

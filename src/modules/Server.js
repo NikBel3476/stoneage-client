@@ -1,3 +1,5 @@
+import md5 from 'md5';
+
 class Server {
     token = '';
     map = {}; 
@@ -21,7 +23,6 @@ class Server {
 
     async login(login, password) {
         if (login && password) {
-            const md5 = require('md5');
             const num = Math.round(Math.random() * 100000);
             const hash = md5(md5(login + password) + num);
             this.token = await this.sendRequest('login', { login, hash, num });
@@ -36,7 +37,6 @@ class Server {
 
     async registration(nickname, login, password) {
         if (nickname && login && password) {
-            const md5 = require('md5');
             const num = Math.round(Math.random() * 100000);
             const hash = md5(login + password);
             this.token = md5(hash + num);
